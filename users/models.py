@@ -19,6 +19,10 @@ class User(AbstractUser):
             
             child = pexpect.spawn(
                 'docker run -v ' + vpn_data_path + ':/etc/openvpn --rm -it myownvpn easyrsa build-client-full ' + self.username + ' nopass')
+            
+            child.expect("Type the word 'yes' to continue, or any other input to abort")
+            child.sendline('yes')
+            
             child.expect('Enter pass phrase for /etc/openvpn/pki/private/ca.key:')
             
             # TODO: Измените CA key здесь:
